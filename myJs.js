@@ -1,17 +1,17 @@
 const textConfig = {
-  text1: "He luu cậu!",
-  text2: "Tớ có điều này muốn hỏi cậu nhớ phải trả lời thật lòng nhaaa.",
-  text3: "Cậu yêu tớ có phải không nào ._.",
-  text4: "Nếu cậu ko trả lời mà thoát ra tức là muốn làm vợ tớ rùi đó nha :v",
+  text1: "HAPPY NEW YEAR",
+  text2: "VANH có điều này muốn hỏi QUỲNH nhớ phải trả lời thật lòng nhaaa.",
+  text3: "QUỲNH có yêu Vanh ko nè._.",
+  text4: "VIỆT ANH YÊU QUỲNH GẤT NHIỀU❤️❤️❤️❤️❤️❤️",
   text5: "Cậu mơ à???",
-  text6: "Yêu ơi là yêu <3",
-  text7: "lí do cậu thích tớ đi :vvvv",
+  text6: "Yêu ơi là yêu ❤️❤️❤️",
+  text7: "Vậy tại sao cậu lại yêu tớ?",
   text8: "Gửi cho tớ <3",
   text9: "Vì cậu đẹp try vlllll",
-  text10: "Tớ biết mà ^^ Yêu cậu 300.000",
+  text10: "Tớ biết mà ^^ Yêu cậu ❤️❤️",
   text11:
-    "Tối nay tớ qua đón cậu đi chơi nhaa :v Còn giờ thì chờ gì nữa mà ko inbox cho tớ đi nàooo",
-  text12: "Okii lunn <3",
+    "HIHI",
+  text12: "ĐÁNG GHÉT",
 };
 
 $(document).ready(function () {
@@ -47,7 +47,7 @@ $(document).ready(function () {
 
   // switch button position
   function switchButton() {
-    var audio = new Audio("sound_duck.mp3");
+    var audio = new Audio("sound_sound.mp3");
     audio.play();
     var leftNo = $("#no").css("left");
     var topNO = $("#no").css("top");
@@ -58,6 +58,12 @@ $(document).ready(function () {
     $("#yes").css("left", leftNo);
     $("#yes").css("top", topNO);
   }
+
+  function playMusic(){
+    var audio = new Audio("nhacnen.mp3");
+    audio.play();
+  }
+
   // move random button póition
   function moveButton() {
     var audio = new Audio("sound_Swish1.mp3");
