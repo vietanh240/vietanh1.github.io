@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Điểm - Giáo Viên</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/score_upload.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="school-info">
+                    <div class="school-logo">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="school-details">
+                        <h1 id="teacher-school-name">QUẢN LÝ ĐIỂM - GIÁO VIÊN</h1>
+                        <p id="teacher-school-slogan">Hệ thống quản lý điểm số toàn diện</p>
+                        <span id="teacher-info"></span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class ="vetrangchu">
+                    <a href="index.html" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Về Trang Chủ
+                    </a>
+                    </div>
+                    <div class="user-section">
+                        <button id="teacher-logout" class="btn btn-outline">
+                            <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-links">
+                    <a href="#" class="nav-item active" data-tab="students">
+                        <i class="fas fa-users"></i> Quản Lý Học Sinh
+                    </a>
+                    <a href="#" class="nav-item" data-tab="classes">
+                        <i class="fas fa-chalkboard"></i> Số Lớp Đang Dạy
+                    </a>
+                    <a href="#" class="nav-item" data-tab="scores">
+                        <i class="fas fa-edit"></i> Nhập Điểm
+                    </a>
+                    <a href="#" class="nav-item" data-tab="reports">
+                        <i class="fas fa-chart-bar"></i> Thống Kê
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container main-container">
+        <!-- Dashboard Giáo Viên -->
+        <div class="teacher-dashboard">
+            <div class="teacher-welcome">
+                <h2 id="teacher-greeting">Chào mừng giáo viên!</h2>
+                <div class="teacher-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Tổng Số Học Sinh</h3>
+                            <p id="total-students-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Số Lớp Đảm Nhiệm</h3>
+                            <p id="total-classes-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Điểm TB</h3>
+                            <p id="average-score">0.0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>HS Xuất Sắc</h3>
+                            <p id="excellent-students">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Quản Lý Học Sinh -->
+            <div id="students" class="tab-content active">
+                <div class="tab-header">
+                    <h3><i class="fas fa-users"></i> Quản Lý Học Sinh</h3>
+                    <p>Thêm, sửa, xóa và quản lý thông tin học sinh</p>
+                </div>
+
+                <div class="action-bar">
+                    <div class="action-group">
+                        <button id="add-student-btn" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Thêm Học Sinh
+                        </button>
+                        <button id="import-students-btn" class="btn btn-secondary">
+                            <i class="fas fa-file-import"></i> Import Excel
+                        </button>
+                        <button id="export-students-btn" class="btn btn-info">
+                            <i class="fas fa-file-export"></i> Export Excel
+                        </button>
+                        <button id="download-template-btn" class="btn btn-outline">
+                            <i class="fas fa-download"></i> Template
+                        </button>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="student-search" placeholder="Tìm kiếm học sinh...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="form-group">
+                        <label for="filter-class">Lọc theo lớp:</label>
+                        <select id="filter-class">
+                            <option value="">Tất cả lớp</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-grade">Lọc theo khối:</label>
+                        <select id="filter-grade">
+                            <option value="">Tất cả khối</option>
+                            <option value="6">Khối 6</option>
+                            <option value="7">Khối 7</option>
+                            <option value="8">Khối 8</option>
+                            <option value="9">Khối 9</option>
+                            <option value="10">Khối 10</option>
+                            <option value="11">Khối 11</option>
+                            <option value="12">Khối 12</option>
+                        </select>
+                    </div>
+                    <button id="clear-filters" class="btn btn-outline">
+                        <i class="fas fa-times"></i> Xóa bộ lọc
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table id="students-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã HS</th>
+                                <th>Họ Tên</th>
+                                <th>Ngày Sinh</th>
+                                <th>Lớp</th>
+                                <th>Khối</th>
+                                <th>Năm Học</th>
+                                <th>Điểm TB</th>
+                                <th>Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-tbody">
+                            <!-- Dữ liệu học sinh sẽ được thêm ở đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab Số Lớp Đang Dạy -->
+<div id="classes" class="tab-content">
+    <div class="tab-header">
+        <h3><i class="fas fa-chalkboard"></i> Số Lớp Đang Dạy</h3>
+        <p>Thông tin các lớp học đang đảm nhiệm</p>
+    </div>
+
+    <div class="classes-container">
+        <div class="classes-overview">
+            <h4>Danh sách lớp đang dạy</h4>
+            <div class="classes-grid" id="classes-grid">
+                <!-- Thông tin lớp sẽ được load tự động -->
+            </div>
+        </div>
+
+        <div class="teaching-info">
+            <h4>Thông Tin Giảng Dạy</h4>
+            <div class="info-card">
+                <div class="info-item">
+                    <i class="fas fa-user-tie"></i>
+                    <div class="info-content">
+                        <h5>Giáo viên</h5>
+                        <p id="teacher-name-display">Thầy/Cô giáo</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-book-open"></i>
+                    <div class="info-content">
+                        <h5>Môn giảng dạy</h5>
+                        <p id="teacher-subjects-display">Các môn học</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-users"></i>
+                    <div class="info-content">
+                        <h5>Tổng số học sinh</h5>
+                        <p id="total-students-display">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Tab Nhập Điểm -->
+            <div id="scores" class="tab-content">
+                <div class="tab-header">
+                    <h3><i class="fas fa-edit"></i> Nhập Điểm</h3>
+                    <p>Nhập điểm trực quan như Excel với tính năng tự động lưu</p>
+                </div>
+
+                <div class="score-controls">
+                    <div class="form-group">
+                        <label for="score-class">Chọn Lớp:</label>
+                        <select id="score-class">
+                            <option value="">-- Chọn lớp --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="score-subject">Chọn Môn:</label>
+                        <select id="score-subject">
+                            <option value="">-- Chọn môn --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="score-semester">Học Kỳ:</label>
+                        <select id="score-semester">
+                            <option value="1">Học kỳ 1</option>
+                            <option value="2">Học kỳ 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="score-type">Loại điểm:</label>
+                        <select id="score-type">
+                            <option value="15p1">15 phút 1</option>
+                            <option value="15p2">15 phút 2</option>
+                            <option value="45p1">45 phút</option>
+                            <option value="giuaky">Giữa kỳ</option>
+                            <option value="cuoiky">Cuối kỳ</option>
+                        </select>
+                    </div>
+                    <button id="load-scores-btn" class="btn btn-primary" onclick="updateScoreInputTable()">
+    <i class="fas fa-file-excel"></i> Tải DS Nhập Điểm (Excel)
+</button>
+                </div>
+
+                <div class="score-table-container" id="score-input-section">
+                    <div class="no-data-message">
+                        <i class="fas fa-clipboard-list fa-3x"></i>
+                        <h3>Chọn lớp và môn học để nhập điểm</h3>
+                        <p>Hãy chọn lớp, môn học và loại điểm để bắt đầu nhập điểm cho học sinh.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Thống Kê -->
+            <div id="reports" class="tab-content">
+                <div class="tab-header">
+                    <h3><i class="fas fa-chart-bar"></i> Thống Kê & Báo Cáo</h3>
+                    <p>Xem thống kê điểm số và xuất báo cáo</p>
+                </div>
+
+                <div class="report-controls">
+                    <div class="form-group">
+                        <label for="report-class">Lớp:</label>
+                        <select id="report-class">
+                            <option value="">Tất cả lớp</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="report-subject">Môn:</label>
+                        <select id="report-subject">
+                            <option value="">Tất cả môn</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="report-semester">Học Kỳ:</label>
+                        <select id="report-semester">
+                            <option value="1">Học kỳ 1</option>
+                            <option value="2">Học kỳ 2</option>
+                            <option value="all">Cả năm</option>
+                        </select>
+                    </div>
+                    <button id="generate-report" class="btn btn-primary">
+                        <i class="fas fa-chart-pie"></i> Tạo Báo Cáo
+                    </button>
+                    <button id="export-report" class="btn btn-info">
+                        <i class="fas fa-file-excel"></i> Xuất Excel
+                    </button>
+                </div>
+
+                <div class="report-content" id="report-content">
+                    <div class="report-placeholder">
+                        <i class="fas fa-chart-bar fa-3x"></i>
+                        <h3>Chọn tiêu chí để xem báo cáo</h3>
+                        <p>Hãy chọn lớp, môn học và học kỳ để tạo báo cáo thống kê.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Hỗ Trợ Giáo Viên</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Hướng dẫn nhập điểm</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Quy chế đánh giá</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Mẫu báo cáo</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Liên hệ kỹ thuật</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Thông Tin Liên Hệ</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> Số 123, Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>
+                        <p><i class="fas fa-phone"></i> (028) 1234 5678</p>
+                        <p><i class="fas fa-envelope"></i> giaovien@truongthcsthp.edu.vn</p>
+                        <p><i class="fas fa-clock"></i> Thứ 2 - Thứ 6: 7:00 - 17:00</p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Tài Nguyên</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Biểu mẫu đánh giá</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Quy định điểm số</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Template báo cáo</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Kết Nối</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        
+                    </div>
+                    <div class="certification">
+                        <p><i class="fas fa-shield-alt"></i> Hệ thống đảm bảo an toàn thông tin</p>
+                        <p><i class="fas fa-certificate"></i> Đã được kiểm định chất lượng</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 Trường THCS & THPT Chất Lượng Cao. Phiên bản dành cho Giáo viên.</p>
+                    <div class="footer-links">
+                        <a href="#">Chính sách bảo mật</a>
+                        <a href="#">Điều khoản sử dụng</a>
+                        <a href="#">Hỗ trợ kỹ thuật</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Thêm/Sửa Học Sinh -->
+    <div id="student-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> <span id="modal-title">Thêm Học Sinh Mới</span></h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="student-form">
+                    <input type="hidden" id="edit-student-id">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-id">Mã Học Sinh *</label>
+                            <input type="text" id="student-id" placeholder="VD: HS001" required pattern="^HS\d{3,}$" title="Mã HS phải bắt đầu bằng HS và theo sau là số">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-name">Họ và Tên *</label>
+                            <input type="text" id="student-name" placeholder="Nhập họ và tên học sinh" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-dob">Ngày Sinh *</label>
+                            <input type="date" id="student-dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-grade">Khối *</label>
+                            <select id="student-grade" required>
+                                <option value="">-- Chọn khối --</option>
+                                <option value="6">Khối 6</option>
+                                <option value="7">Khối 7</option>
+                                <option value="8">Khối 8</option>
+                                <option value="9">Khối 9</option>
+                                <option value="10">Khối 10</option>
+                                <option value="11">Khối 11</option>
+                                <option value="12">Khối 12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-class">Lớp *</label>
+                            <input type="text" id="student-class" placeholder="VD: 10A1, 11B2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-year">Năm Học *</label>
+                            <select id="student-year" required>
+                                <option value="2023-2024">2023-2024</option>
+                                <option value="2024-2025">2024-2025</option>
+                                <option value="2025-2026">2025-2026</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-student">
+                            <i class="fas fa-times"></i> Hủy
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> <span id="save-button-text">Lưu Học Sinh</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Xác Nhận -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Xác Nhận</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">Bạn có chắc chắn muốn thực hiện thao tác này?</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-confirm">
+                        <i class="fas fa-times"></i> Hủy
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirm-action">
+                        <i class="fas fa-check"></i> Xác Nhận
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Input ẩn -->
+    <input type="file" id="file-input" accept=".xlsx, .xls" style="display: none;">
+
+    <script src="js/teacher.js"></script>
+    
+</body>
+
+</html>

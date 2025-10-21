@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Điểm Thi THCS & THPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="school-info">
+                    <div class="school-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="school-details">
+                        <h1 id="school-name">TRƯỜNG THCS & THPT CHẤT LƯỢNG CAO</h1>
+                        <p id="school-slogan">Nơi ươm mầm tri thức - Vững bước tương lai</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="user-section">
+                        <span id="user-info" class="hidden"></span>
+                        <button id="login-btn" class="btn btn-outline">
+                            <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+                        </button>
+                        <button id="logout-btn" class="btn btn-outline hidden">
+                            <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-links">
+                    <a href="#" class="nav-item active" data-page="home">
+                        <i class="fas fa-home"></i> Trang Chủ
+                    </a>
+                    <a href="#" class="nav-item" data-page="news">
+                        <i class="fas fa-newspaper"></i> Tin Tức
+                    </a>
+                    <a href="#" class="nav-item" data-page="forum">
+                        <i class="fas fa-comments"></i> Diễn Đàn
+                    </a>
+                    <a href="#" class="nav-item" data-page="scores">
+                        <i class="fas fa-search"></i> Tra Cứu Điểm
+                    </a>
+                    <a href="#" class="nav-item teacher-only hidden" data-page="teacher" id="teacher-portal">
+                        <i class="fas fa-chalkboard-teacher"></i> Quản Lý Điểm
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container main-container">
+        <!-- Trang Chủ -->
+        <main id="home-page" class="page active">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h2>Chào mừng đến với Hệ Thống Quản Lý Điểm Thi</h2>
+                    <p>Nền tảng quản lý điểm số và trao đổi học tập toàn diện cho giáo viên và học sinh</p>
+                    <div class="hero-features">
+                        <div class="feature">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Theo dõi điểm số</h3>
+                            <p>Xem điểm chi tiết các môn học theo từng học kỳ</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-newspaper"></i>
+                            <h3>Tin tức giáo dục</h3>
+                            <p>Cập nhật thông tin mới nhất từ Bộ GD&ĐT</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-comments"></i>
+                            <h3>Diễn đàn học tập</h3>
+                            <p>Trao đổi và thảo luận kiến thức cùng bạn bè</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thông báo nhanh -->
+            <section class="quick-news">
+                <h3><i class="fas fa-bullhorn"></i> Thông Báo Mới Nhất</h3>
+                <div class="news-list" id="quick-news-list">
+                    <!-- JavaScript sẽ load tin tức ở đây -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Trang Tin Tức -->
+        <main id="news-page" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-newspaper"></i> Tin Tức Giáo Dục</h2>
+                <p>Cập nhật các thông tư, quy định mới nhất của Bộ GD&ĐT và nhà trường</p>
+            </div>
+
+            <div class="news-container">
+                <div class="news-categories">
+                    <button class="category-btn active" data-category="all">Tất Cả</button>
+                    <button class="category-btn" data-category="circular">Thông Tư</button>
+                    <button class="category-btn" data-category="regulation">Quy Định</button>
+                    <button class="category-btn" data-category="event">Sự Kiện</button>
+                </div>
+
+                <div class="news-grid" id="news-grid">
+                    <!-- Tin tức sẽ được load bằng JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Trang Diễn Đàn -->
+        <main id="forum-page" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-comments"></i> Diễn Đàn Học Tập</h2>
+                <p>Nơi trao đổi, thảo luận và chia sẻ kiến thức</p>
+            </div>
+
+            <div class="forum-container">
+                <div class="forum-actions">
+                    <button id="new-topic-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Tạo Chủ Đề Mới
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="forum-search" placeholder="Tìm kiếm trong diễn đàn...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="forum-topics" id="forum-topics">
+                    <!-- Diễn đàn sẽ được load bằng JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Trang Tra Cứu Điểm -->
+        <main id="scores-page" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-search"></i> Tra Cứu Điểm</h2>
+                <p>Xem điểm chi tiết các môn học theo học kỳ</p>
+            </div>
+
+            <div class="score-search-container">
+                <div class="search-form">
+                    <div class="form-group">
+                        <label for="score-student-id">Mã Học Sinh:</label>
+                        <input type="text" id="score-student-id" placeholder="Nhập mã học sinh (VD: HS001)">
+                    </div>
+                    <div class="form-group">
+                        <label for="score-semester">Học Kỳ:</label>
+                        <select id="score-semester">
+                            <option value="1">Học kỳ 1</option>
+                            <option value="2">Học kỳ 2</option>
+                        </select>
+                    </div>
+                    <button id="search-score-btn" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Tra Cứu Điểm
+                    </button>
+                </div>
+
+                <div class="score-results" id="score-results">
+                    <div class="no-results">
+                        <i class="fas fa-search fa-3x"></i>
+                        <h3>Nhập mã học sinh để tra cứu điểm</h3>
+                        <p>Hãy nhập mã học sinh của bạn và chọn học kỳ để xem kết quả học tập.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Trang Quản Lý Điểm (Chỉ hiện khi giáo viên đăng nhập) -->
+        <main id="teacher-page" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-chalkboard-teacher"></i> Quản Lý Điểm - Giáo Viên</h2>
+                <p>Khu vực dành riêng cho giáo viên quản lý điểm số</p>
+            </div>
+            
+            <div class="teacher-redirect">
+                <div class="redirect-content">
+                    <i class="fas fa-external-link-alt fa-4x"></i>
+                    <h3>Chuyển đến trang Quản Lý Điểm</h3>
+                    <p>Bạn đang được chuyển hướng đến trang quản lý điểm dành cho giáo viên.</p>
+                    <button id="redirect-teacher-btn" class="btn btn-primary">
+                         Truy cập ngay
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Về Trang Web</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Giới thiệu</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Phát triển</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Thành tích</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Thông Tin Liên Hệ</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> Số 123, Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>
+                        <p><i class="fas fa-phone"></i> (028) 1234 5678</p>
+                        <p><i class="fas fa-envelope"></i> info@truongthcsthp.edu.vn</p>
+                        <p><i class="fas fa-clock"></i> Thứ 2 - Thứ 6: 7:00 - 17:00</p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Hỗ Trợ</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Hướng dẫn sử dụng</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Câu hỏi thường gặp</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Liên hệ hỗ trợ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Góp ý hệ thống</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Kết Nối</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                    <div class="certification">
+                        <p><i class="fas fa-shield-alt"></i> Hệ thống đảm bảo an toàn thông tin</p>
+                        <p><i class="fas fa-certificate"></i> Đã được kiểm định chất lượng</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 Trường THCS & THPT Chất Lượng Cao. Tất cả quyền được bảo lưu.</p>
+                    <div class="footer-links">
+                        <a href="#">Chính sách bảo mật</a>
+                        <a href="#">Điều khoản sử dụng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Đăng Nhập -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Đăng Nhập Hệ Thống</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập:</label>
+                        <input type="text" id="username" placeholder="Nhập tên đăng nhập" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu:</label>
+                        <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-type">Loại tài khoản:</label>
+                        <select id="user-type" required>
+                            <option value="student">Học Sinh</option>
+                            <option value="teacher">Giáo Viên</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-login">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tạo Chủ Đề Diễn Đàn -->
+    <div id="topic-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tạo Chủ Đề Mới</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="topic-form">
+                    <div class="form-group">
+                        <label for="topic-title">Tiêu đề:</label>
+                        <input type="text" id="topic-title" placeholder="Nhập tiêu đề chủ đề" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="topic-content">Nội dung:</label>
+                        <textarea id="topic-content" rows="6" placeholder="Nhập nội dung chi tiết..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="topic-category">Chuyên mục:</label>
+                        <select id="topic-category" required>
+                            <option value="study">Học Tập</option>
+                            <option value="exam">Thi Cử</option>
+                            <option value="life">Đời Sống Học Đường</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-topic">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Đăng Bài</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
